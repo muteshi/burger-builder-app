@@ -4,6 +4,12 @@ import Aux from "../../hoc/Auxilliary";
 import Burger from "../../components/Burger/Burger";
 import BuildControls from "../../components/Burger/BuildControls/BuildControls";
 
+const INGREDIENT_PRICES = {
+  salad: 50,
+  cheese: 40,
+  meet: 150,
+  bacon: 70,
+};
 class BurgerBuilder extends Component {
   state = {
     ingredients: {
@@ -12,13 +18,53 @@ class BurgerBuilder extends Component {
       cheese: 0,
       meat: 0,
     },
+    totalPrice: 100,
   };
+
+  addIngredientHandler = (type) => {
+    const oldCount = this.state.ingredients[type];
+    const newCount = oldCount + 1;
+    const updatedIngs = {
+      ...this.state.ingredients,
+    };
+    updatedIngs[type] = newCount;
+    const ingPrice = INGREDIENT_PRICES[type];
+    const defaultPrice = this.state.totalPrice;
+    const newPrice = defaultPrice + ingPrice;
+    this.setState({ totalPrice: newPrice, ingredients: updatedIngs });
+  };
+
+  removeIngredientHandler = (type) => {
+    const oldCount = this.state.ingredients[type];
+    if (oldCount <= 0) return;
+    const newCount = oldCount - 1;
+    const updatedIngs = {
+      ...this.state.ingredients,
+    };
+    updatedIngs[type] = newCount;
+    const ingPrice = INGREDIENT_PRICES[type];
+    const defaultPrice = this.state.totalPrice;
+    const newPrice = defaultPrice - ingPrice;
+    this.setState({ totalPrice: newPrice, ingredients: updatedIngs });
+  };
+
   render() {
+    const disabledBtn = {
+      ...this.state.ingredients,
+    };
+    for (let key in disabledBtn) {
+      disabledBtn[key] = disabledBtn[key] <= 0;
+    }
+
     const ingredients = this.state.ingredients;
     return (
       <Aux>
         <Burger ingredients={ingredients} />
-        <BuildControls />
+        <BuildControls
+          disabled={disabledBtn}
+          ingAdded={this.addIngredientHandler}
+          ingRemoved={this.removeIngredientHandler}
+        />
       </Aux>
     );
   }
