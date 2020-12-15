@@ -1,6 +1,6 @@
 import React from "react";
 
-import Aux from "../../../hoc/Auxilliary";
+import Aux from "../../../hoc/Layout/Auxilliary/Auxilliary";
 import Backdrop from "../../UI/Backdrop/Backdrop";
 import classes from "./SideDrawer.module.css";
 import Logo from "../../Logo/Logo";
