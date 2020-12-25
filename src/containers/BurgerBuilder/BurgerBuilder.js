@@ -26,6 +26,7 @@ class BurgerBuilder extends Component {
     loading: false,
     error: false,
   };
+
   componentDidMount() {
     axiosInstance
       .get(INGREDIENT_URL)
@@ -110,21 +111,41 @@ class BurgerBuilder extends Component {
       });
   };
 
+  checkoutClickedHandler = () => {
+    const queryParams = [];
+    for (let i in this.state.ingredients) {
+      queryParams.push(
+        encodeURIComponent(i) +
+          "=" +
+          encodeURIComponent(this.state.ingredients[i])
+      );
+    }
+    const queryString = queryParams.join("&");
+    this.props.history.push({
+      pathname: "/checkout",
+      search: "?" + queryString,
+    });
+  };
+
   render() {
     const ingredients = this.state.ingredients;
+
     const disabledBtn = {
       ...this.state.ingredients,
     };
+
     for (let key in disabledBtn) {
       disabledBtn[key] = disabledBtn[key] <= 0;
     }
+
     let orderSummary = null;
 
     let burger = this.state.error ? (
-      <p>Ingredients cannot be loaded</p>
+      <h3>Ingredients cannot be loaded</h3>
     ) : (
       <Spinner />
     );
+
     if (this.state.ingredients) {
       // Burger rendering
       burger = (
@@ -140,11 +161,12 @@ class BurgerBuilder extends Component {
           />
         </Aux>
       );
+
       // Order summary rendering logic
       orderSummary = (
         <OrderSummary
           cancelled={this.purchaseCancelhander}
-          continued={this.purchaseContinueHandler}
+          continued={this.checkoutClickedHandler}
           ingredients={ingredients}
           price={this.state.totalPrice}
         />
@@ -163,7 +185,6 @@ class BurgerBuilder extends Component {
         >
           {orderSummary}
         </Modal>
-
         {burger}
       </Aux>
     );
