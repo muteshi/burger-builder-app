@@ -17,6 +17,7 @@ class ContactData extends Component {
         },
         value: "",
         valid: false,
+        touched: false,
         validation: {
           required: true,
           minLength: 5,
@@ -30,6 +31,8 @@ class ContactData extends Component {
           placeholder: "Street name",
         },
         value: "",
+        valid: false,
+        touched: false,
         validation: {
           required: false,
         },
@@ -42,6 +45,7 @@ class ContactData extends Component {
         },
         value: "",
         valid: false,
+        touched: false,
         validation: {
           required: false,
         },
@@ -54,6 +58,7 @@ class ContactData extends Component {
         },
         value: "",
         valid: false,
+        touched: false,
         validation: {
           required: true,
         },
@@ -73,7 +78,6 @@ class ContactData extends Component {
           ],
         },
         value: "",
-        valid: false,
       },
     },
     loading: false,
@@ -123,10 +127,10 @@ class ContactData extends Component {
     };
     const newFormElement = { ...newOrderForm[inputId] };
     newFormElement.value = e.target.value;
-    newFormElement.valid = this.checkFormValidity(
-      newFormElement.value,
-      newFormElement.validation
-    );
+    newFormElement.touched = true;
+    newFormElement.valid = newFormElement.validation
+      ? this.checkFormValidity(newFormElement.value, newFormElement.validation)
+      : null;
     console.log(newFormElement);
     newOrderForm[inputId] = newFormElement;
     this.setState({ orderForm: newOrderForm });
@@ -150,7 +154,10 @@ class ContactData extends Component {
               changed={(e) => this.inputChangedhandler(e, el.id)}
               elementType={el.config.elementType}
               elementConfig={el.config.elementConfig}
+              shouldValidate={el.config.validation}
               key={el.id}
+              touched={el.config.touched}
+              invalid={!el.config.valid}
               value={el.config.value}
             />
           );
