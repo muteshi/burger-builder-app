@@ -10,21 +10,21 @@ const order = (props) => {
   }
 
   const newIngs = ingredients.map((ing) => {
-    if (ing.amount)
-      return (
-        <span
-          style={{
-            textTransform: "capitalize",
-            display: "inline-block",
-            margin: "0 8px",
-            border: "1px solid #ccc",
-            padding: "5px",
-          }}
-          key={ing.name}
-        >
-          {ing.name} ({ing.amount})
-        </span>
-      );
+    console.log(ing);
+    return (
+      <span
+        style={{
+          textTransform: "capitalize",
+          display: "inline-block",
+          margin: "0 8px",
+          border: "1px solid #ccc",
+          padding: "5px",
+        }}
+        key={ing.name}
+      >
+        {ing.name} ({ing.amount})
+      </span>
+    );
   });
 
   return (
