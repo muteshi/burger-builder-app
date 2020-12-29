@@ -12,7 +12,7 @@
 
 .InputElement {
   outline: none;
-  border: 1px solid #ccc;
+  border: 1px solid #eee;
   background-color: #fff;
   font: inherit;
   padding: 6px 10px;
@@ -24,4 +24,5 @@
 .InputElement:focus {
   outline: none;
   border: 1px solid #ccc;
+  background-color: #eee;
 }
