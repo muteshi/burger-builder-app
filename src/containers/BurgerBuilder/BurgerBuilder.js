@@ -9,7 +9,10 @@ import Spinner from "../../components/UI/Spinner/Spinner";
 import OrderSummary from "../../components/Burger/OrderSummary/OrderSummary";
 import withErrorHandler from "../../hoc/withErrorHandler/withErrorHandler";
 import { connect } from "react-redux";
-import { ADD_INGREDIENT, REMOVE_INGREDIENT } from "../../store/actions";
+import {
+  ADD_INGREDIENT,
+  REMOVE_INGREDIENT,
+} from "../../store/actions/actionTypes";
 
 const INGREDIENT_URL =
   "https://web-gurus-media--1492326682375.firebaseio.com/ingredients.json";
