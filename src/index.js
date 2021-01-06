@@ -1,18 +1,21 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
-import { createStore } from "redux";
+import { applyMiddleware, compose, createStore } from "redux";
 import { Provider } from "react-redux";
+import thunk from "redux-thunk";
 
 import App from "./App";
-import reducer from "./store/reducers/reducer";
+import burgerBuilderReducer from "./store/reducers/burgerBuilder";
 import reportWebVitals from "./reportWebVitals";
 
 import "./index.css";
 
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
 const store = createStore(
-  reducer,
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+  burgerBuilderReducer,
+  composeEnhancers(applyMiddleware, thunk)
 );
 
 const app = (

@@ -9,10 +9,7 @@ import Spinner from "../../components/UI/Spinner/Spinner";
 import OrderSummary from "../../components/Burger/OrderSummary/OrderSummary";
 import withErrorHandler from "../../hoc/withErrorHandler/withErrorHandler";
 import { connect } from "react-redux";
-import {
-  ADD_INGREDIENT,
-  REMOVE_INGREDIENT,
-} from "../../store/actions/actionTypes";
+import { addIngredient, removeIngredient } from "../../store/actions/";
 
 const INGREDIENT_URL =
   "https://web-gurus-media--1492326682375.firebaseio.com/ingredients.json";
@@ -25,14 +22,14 @@ class BurgerBuilder extends Component {
   };
 
   componentDidMount() {
-    // axiosInstance
-    //   .get(INGREDIENT_URL)
-    //   .then((response) => {
-    //     this.setState({ ingredients: response.data });
-    //   })
-    //   .catch((error) => {
-    //     this.setState({ error: true });
-    //   });
+    axiosInstance
+      .get(INGREDIENT_URL)
+      .then((response) => {
+        this.setState({ ingredients: response.data });
+      })
+      .catch((error) => {
+        this.setState({ error: true });
+      });
   }
 
   updatePurchaseState = (updatedIngs) => {
@@ -133,8 +130,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onIngAdded: (ingName) => dispatch({ type: ADD_INGREDIENT, ingName }),
-    onIngRemoved: (ingName) => dispatch({ type: REMOVE_INGREDIENT, ingName }),
+    onIngAdded: (ingName) => dispatch(addIngredient(ingName)),
+    onIngRemoved: (ingName) => dispatch(removeIngredient(ingName)),
   };
 };
 export default connect(
