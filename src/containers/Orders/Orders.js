@@ -5,7 +5,7 @@ import axiosInstance from "../../axiosOrders";
 import Order from "../../components/Order/Order";
 import Spinner from "../../components/UI/Spinner/Spinner";
 import withErrorHandler from "../../hoc/withErrorHandler/withErrorHandler";
-import { fetchOrders, fetchOrdersSuccess } from "../../store/actions/order";
+import { fetchOrders } from "../../store/actions/order";
 
 class Orders extends Component {
   componentDidMount() {

@@ -10,7 +10,6 @@ const order = (props) => {
   }
 
   const newIngs = ingredients.map((ing) => {
-    console.log(ing);
     return (
       <span
         style={{
