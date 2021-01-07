@@ -9,27 +9,19 @@ import Spinner from "../../components/UI/Spinner/Spinner";
 import OrderSummary from "../../components/Burger/OrderSummary/OrderSummary";
 import withErrorHandler from "../../hoc/withErrorHandler/withErrorHandler";
 import { connect } from "react-redux";
-import { addIngredient, removeIngredient } from "../../store/actions/";
-
-const INGREDIENT_URL =
-  "https://web-gurus-media--1492326682375.firebaseio.com/ingredients.json";
+import {
+  addIngredient,
+  initIngredient,
+  removeIngredient,
+} from "../../store/actions/";
 
 class BurgerBuilder extends Component {
   state = {
     purchasing: false,
-    loading: false,
-    error: false,
   };
 
   componentDidMount() {
-    axiosInstance
-      .get(INGREDIENT_URL)
-      .then((response) => {
-        this.setState({ ingredients: response.data });
-      })
-      .catch((error) => {
-        this.setState({ error: true });
-      });
+    this.props.onInitIngs();
   }
 
   updatePurchaseState = (updatedIngs) => {
@@ -70,7 +62,7 @@ class BurgerBuilder extends Component {
 
     let orderSummary = null;
 
-    let burger = this.state.error ? (
+    let burger = this.props.error ? (
       <h3>Ingredients cannot be loaded</h3>
     ) : (
       <Spinner />
@@ -101,10 +93,6 @@ class BurgerBuilder extends Component {
           price={this.props.price}
         />
       );
-
-      if (this.state.loading) {
-        orderSummary = <Spinner />;
-      }
     }
 
     return (
@@ -125,6 +113,7 @@ const mapStateToProps = (state) => {
   return {
     ings: state.ingredients,
     price: state.totalPrice,
+    error: state.error,
   };
 };
 
@@ -132,6 +121,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     onIngAdded: (ingName) => dispatch(addIngredient(ingName)),
     onIngRemoved: (ingName) => dispatch(removeIngredient(ingName)),
+    onInitIngs: () => dispatch(initIngredient()),
   };
 };
 export default connect(
