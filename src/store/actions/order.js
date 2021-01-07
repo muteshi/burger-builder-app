@@ -3,8 +3,14 @@ import {
   PURCHASE_BURGER_FAIL,
   PURCHASE_BURGER_START,
   PURCHASE_BURGER_SUCCESS,
+  PURCHASE_INIT,
 } from "./actionTypes";
 
+export const purchaseInit = () => {
+  return {
+    type: PURCHASE_INIT,
+  };
+};
 export const purchaseBurgerStart = () => {
   return {
     type: PURCHASE_BURGER_START,

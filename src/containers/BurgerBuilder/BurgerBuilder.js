@@ -12,6 +12,7 @@ import { connect } from "react-redux";
 import {
   addIngredient,
   initIngredient,
+  purchaseInit,
   removeIngredient,
 } from "../../store/actions/";
 
@@ -43,9 +44,8 @@ class BurgerBuilder extends Component {
     this.setState({ purchasing: false });
   };
 
-  purchaseContinueHandler = () => {};
-
   checkoutClickedHandler = () => {
+    this.props.onPurchaseInit();
     this.props.history.push("/checkout");
   };
 
@@ -122,6 +122,7 @@ const mapDispatchToProps = (dispatch) => {
     onIngAdded: (ingName) => dispatch(addIngredient(ingName)),
     onIngRemoved: (ingName) => dispatch(removeIngredient(ingName)),
     onInitIngs: () => dispatch(initIngredient()),
+    onPurchaseInit: () => dispatch(purchaseInit()),
   };
 };
 export default connect(
