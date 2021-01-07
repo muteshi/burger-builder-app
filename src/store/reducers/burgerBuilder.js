@@ -37,6 +37,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         error: false,
+        totalPrice: 200,
         ingredients: {
           salad: action.ingredients.salad,
           bacon: action.ingredients.bacon,
