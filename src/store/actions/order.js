@@ -1,5 +1,15 @@
 import axiosInstance from "../../axiosOrders";
-import { PURCHASE_BURGER_FAIL, PURCHASE_BURGER_SUCCESS } from "./actionTypes";
+import {
+  PURCHASE_BURGER_FAIL,
+  PURCHASE_BURGER_START,
+  PURCHASE_BURGER_SUCCESS,
+} from "./actionTypes";
+
+export const purchaseBurgerStart = () => {
+  return {
+    type: PURCHASE_BURGER_START,
+  };
+};
 
 export const purchaseBurgerSuccess = (id, orderData) => {
   return {
@@ -15,12 +25,14 @@ export const purchaseBurgerFail = (error) => {
     error,
   };
 };
-export const purchaseBurgerStart = (orderData) => {
+
+export const purchaseBurger = (orderData) => {
   return (dispatch) => {
-    axiosIntance
+    dispatch(purchaseBurgerStart());
+    axiosInstance
       .post("orders.json", orderData)
       .then((response) => {
-        dispatch(purchaseBurgerSuccess(response.data, orderData));
+        dispatch(purchaseBurgerSuccess(response.data.name, orderData));
       })
       .catch((error) => {
         dispatch(purchaseBurgerFail(error));
