@@ -122,6 +122,16 @@ class ContactData extends Component {
     if (element.validation.maxLength) {
       isValid = element.value.length <= element.validation.maxLength && isValid;
     }
+    if (element.validation.isEmail) {
+      const pattern = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
+      isValid = pattern.test(element.value) && isValid;
+    }
+
+    if (element.validation.isNumeric) {
+      const pattern = /^\d+$/;
+      isValid = pattern.test(element.value) && isValid;
+    }
+
     return isValid;
   };
 
