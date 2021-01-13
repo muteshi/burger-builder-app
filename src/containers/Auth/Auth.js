@@ -3,6 +3,8 @@ import React, { Component } from "react";
 import Input from "../../components/UI/Forms/Input/Input";
 import Button from "../../components/UI/Button/Button";
 import classes from "./Auth.module.css";
+import { connect } from "react-redux";
+import { auth } from "../../store/actions";
 
 class Auth extends Component {
   state = {
@@ -38,6 +40,7 @@ class Auth extends Component {
         },
       },
     },
+    isSignUp: true,
   };
   capitalize = (string) => {
     return string[0].toUpperCase() + string.slice(1);
@@ -78,6 +81,22 @@ class Auth extends Component {
     this.setState({ controls: newLoginForm, formIsValid });
   };
 
+  submitHandler = (e) => {
+    e.preventDefault();
+    this.props.onAuth(
+      this.state.controls.email.value,
+      this.state.controls.password.value,
+      this.state.isSignUp
+    );
+  };
+  switchAuthModeHandler = () => {
+    this.setState((prevState) => {
+      return {
+        isSignUp: !prevState.isSignUp,
+      };
+    });
+  };
+
   render() {
     const formsElementsArray = [];
 
@@ -104,13 +123,22 @@ class Auth extends Component {
     });
     return (
       <div className={classes.Auth}>
-        <form>
+        <form onSubmit={this.submitHandler}>
           {form}
-          <Button btnType="Success">LOGIN</Button>
+          <Button btnType="Success">SUBMIT</Button>
         </form>
+        <Button btnType="Danger" clicked={this.switchAuthModeHandler}>
+          {this.state.isSignUp ? "LOGIN" : "REGISTER"}{" "}
+        </Button>
       </div>
     );
   }
 }
 
-export default Auth;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onAuth: (email, pass, isSignUp) => dispatch(auth(email, pass, isSignUp)),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(Auth);
