@@ -6,6 +6,7 @@ import Button from "../../components/UI/Button/Button";
 import classes from "./Auth.module.css";
 import Input from "../../components/UI/Forms/Input/Input";
 import Spinner from "../../components/UI/Spinner/Spinner";
+import { Redirect } from "react-router";
 
 class Auth extends Component {
   state = {
@@ -135,8 +136,13 @@ class Auth extends Component {
       const stringMsg = this.props.error.message.split("_").join(" ");
       errMsg = <p>{this.capitalize(stringMsg)}</p>;
     }
+    let authRedirect = null;
+    if (this.props.isAuthenticated) {
+      authRedirect = <Redirect />;
+    }
     return (
       <div className={classes.Auth}>
+        {authRedirect}
         {errMsg}
         <form onSubmit={this.submitHandler}>
           {form}
@@ -154,6 +160,7 @@ const mapStateToProps = (state) => {
   return {
     loading: state.auth.loading,
     error: state.auth.error,
+    isAuthenticated: state.auth.token !== null,
   };
 };
 
