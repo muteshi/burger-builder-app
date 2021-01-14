@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import { auth } from "../../store/actions";
+import { auth, setAuthRedirectPath } from "../../store/actions";
 import Button from "../../components/UI/Button/Button";
 import classes from "./Auth.module.css";
 import Input from "../../components/UI/Forms/Input/Input";
@@ -44,6 +44,13 @@ class Auth extends Component {
     },
     isSignUp: true,
   };
+
+  componentDidMount() {
+    if (!this.props.buildingBurger && this.props.authRedirectPath !== "/") {
+      this.props.onSetAuthRedirectPath();
+    }
+  }
+
   capitalize = (string) => {
     return string[0].toUpperCase() + string.slice(1);
   };
@@ -138,7 +145,7 @@ class Auth extends Component {
     }
     let authRedirect = null;
     if (this.props.isAuthenticated) {
-      authRedirect = <Redirect />;
+      authRedirect = <Redirect to={this.props.authRedirectPath} />;
     }
     return (
       <div className={classes.Auth}>
@@ -161,12 +168,15 @@ const mapStateToProps = (state) => {
     loading: state.auth.loading,
     error: state.auth.error,
     isAuthenticated: state.auth.token !== null,
+    buildingBurger: state.burgerBuilder.burgerBuilding,
+    authRedirectPath: state.auth.authRedirectPath,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     onAuth: (email, pass, isSignUp) => dispatch(auth(email, pass, isSignUp)),
+    onSetAuthRedirectPath: () => dispatch(setAuthRedirectPath("/")),
   };
 };
 
