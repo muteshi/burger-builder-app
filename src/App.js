@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Route, Switch } from "react-router";
 
 import Auth from "./containers/Auth/Auth";
+import Logout from "./containers/Auth/Logout/Logout";
 import BurgerBuilder from "./containers/BurgerBuilder/BurgerBuilder";
 import Checkout from "./containers/Checkout/Checkout";
 import ContactData from "./containers/Checkout/ContactData/ContactData";
@@ -17,6 +18,7 @@ class App extends Component {
           <Switch>
             <Route path="/orders" exact component={Orders} />
             <Route path="/auth" exact component={Auth} />
+            <Route path="/logout" exact component={Logout} />
             <Route path="/checkout" component={Checkout} />
             <Route path="/checkout/contact-data" component={ContactData} />
             <Route path="/" exact component={BurgerBuilder} />
