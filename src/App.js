@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { Route, Switch } from "react-router";
+import { connect } from "react-redux";
+import { Route, Switch, withRouter } from "react-router";
 
 import Auth from "./containers/Auth/Auth";
 import Logout from "./containers/Auth/Logout/Logout";
@@ -8,9 +9,14 @@ import Checkout from "./containers/Checkout/Checkout";
 import ContactData from "./containers/Checkout/ContactData/ContactData";
 import Orders from "./containers/Orders/Orders";
 import Layout from "./hoc/Layout/Layout";
+import { authCheckState } from "./store/actions";
 
 class App extends Component {
   state = {};
+  componentDidMount() {
+    this.props.onSignUp();
+  }
+
   render() {
     return (
       <div>
@@ -28,5 +34,10 @@ class App extends Component {
     );
   }
 }
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onSignUp: () => dispatch(authCheckState()),
+  };
+};
 
-export default App;
+export default withRouter(connect(null, mapDispatchToProps)(App));
