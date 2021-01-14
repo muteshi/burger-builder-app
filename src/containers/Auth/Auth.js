@@ -132,8 +132,8 @@ class Auth extends Component {
     }
     let errMsg = null;
     if (this.props.error) {
-      const errorMsg = this.props.error.message.split("_").join(" ");
-      errMsg = <p>{this.capitalize(errorMsg)}</p>;
+      const stringMsg = this.props.error.message.split("_").join(" ");
+      errMsg = <p>{this.capitalize(stringMsg)}</p>;
     }
     return (
       <div className={classes.Auth}>

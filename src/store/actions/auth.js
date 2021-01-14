@@ -1,5 +1,10 @@
 import axios from "axios";
-import { AUTH_FAIL, AUTH_START, AUTH_SUCCESS } from "./actionTypes";
+import {
+  AUTH_FAIL,
+  AUTH_START,
+  AUTH_SUCCESS,
+  AUTH_LOGOUT,
+} from "./actionTypes";
 
 const registerUrl =
   "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyB5m5ttK1kLr1dv4c2rMlNeRftpuoP2TqI";
@@ -17,6 +22,20 @@ export const authSuccess = (token, userId) => {
     type: AUTH_SUCCESS,
     idToken: token,
     userId,
+  };
+};
+
+export const logout = () => {
+  return {
+    type: AUTH_LOGOUT,
+  };
+};
+
+export const checkAuthTimeout = (expiryTime) => {
+  return (dispatch) => {
+    setTimeout(() => {
+      dispatch(logout());
+    }, expiryTime * 1000);
   };
 };
 
@@ -45,6 +64,7 @@ export const auth = (email, password, isSignUp) => {
       .then((res) => {
         console.log(res);
         dispatch(authSuccess(res.data.idToken, res.data.localId));
+        dispatch(checkAuthTimeout(res.data.expiresIn));
       })
       .catch((err) => {
         dispatch(authFail(err.response.data.error));

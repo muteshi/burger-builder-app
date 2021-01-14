@@ -1,4 +1,9 @@
-import { AUTH_FAIL, AUTH_START, AUTH_SUCCESS } from "../actions/actionTypes";
+import {
+  AUTH_FAIL,
+  AUTH_LOGOUT,
+  AUTH_START,
+  AUTH_SUCCESS,
+} from "../actions/actionTypes";
 import { newObject } from "../utility/utility";
 
 const initialState = {
@@ -27,6 +32,10 @@ const authSuccess = (state, action) => {
     userId: action.userId,
   });
 };
+
+const authLogout = (state, action) => {
+  return newObject(state, { token: null, userId: null });
+};
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case AUTH_START:
@@ -35,6 +44,8 @@ const reducer = (state = initialState, action) => {
       return authSuccess(state, action);
     case AUTH_FAIL:
       return authFail(state, action);
+    case AUTH_LOGOUT:
+      return authLogout(state, action);
     default:
       return state;
   }
