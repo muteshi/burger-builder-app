@@ -1,6 +1,6 @@
 import React, { Component, Suspense } from "react";
 import { connect } from "react-redux";
-import { Redirect, Route, Switch, withRouter } from "react-router";
+import { Redirect, Route, Switch, withRouter } from "react-router-dom";
 
 import Logout from "./containers/Auth/Logout/Logout";
 import BurgerBuilder from "./containers/BurgerBuilder/BurgerBuilder";
