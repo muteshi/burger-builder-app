@@ -5,7 +5,7 @@ import {
   AUTH_SUCCESS,
   SET_AUTH_REDIRECT_PATH,
 } from "../actions/actionTypes";
-import { newObject } from "../utility/utility";
+import { newObject } from "../../utility/utility";
 
 const initialState = {
   token: null,

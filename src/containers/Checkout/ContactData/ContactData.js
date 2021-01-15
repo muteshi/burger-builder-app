@@ -8,6 +8,7 @@ import Input from "../../../components/UI/Forms/Input/Input";
 import { connect } from "react-redux";
 import withErrorHandler from "../../../hoc/withErrorHandler/withErrorHandler";
 import { purchaseBurger } from "../../../store/actions";
+import { checkFormValidity } from "../../../utility/utility";
 
 class ContactData extends Component {
   state = {
@@ -111,31 +112,6 @@ class ContactData extends Component {
     return string[0].toUpperCase() + string.slice(1);
   };
 
-  checkFormValidity = (element, inputId) => {
-    let isValid = true;
-    if (element.validation.required) {
-      isValid = element.value.trim() !== "" && isValid;
-      element.errorMsg = `Please enter a valid ${this.capitalize(inputId)}`;
-    }
-    if (element.validation.minLength) {
-      isValid = element.value.length >= element.validation.minLength && isValid;
-    }
-    if (element.validation.maxLength) {
-      isValid = element.value.length <= element.validation.maxLength && isValid;
-    }
-    if (element.validation.isEmail) {
-      const pattern = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
-      isValid = pattern.test(element.value) && isValid;
-    }
-
-    if (element.validation.isNumeric) {
-      const pattern = /^\d+$/;
-      isValid = pattern.test(element.value) && isValid;
-    }
-
-    return isValid;
-  };
-
   inputChangedhandler = (e, inputId) => {
     const newOrderForm = {
       ...this.state.orderForm,
@@ -143,7 +119,7 @@ class ContactData extends Component {
     const newFormElement = { ...newOrderForm[inputId] };
     newFormElement.value = e.target.value;
     newFormElement.touched = true;
-    newFormElement.valid = this.checkFormValidity(newFormElement, inputId);
+    newFormElement.valid = checkFormValidity(newFormElement, inputId);
 
     newOrderForm[inputId] = newFormElement;
     let formIsValid = true;

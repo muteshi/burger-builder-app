@@ -7,7 +7,7 @@ import {
   PURCHASE_BURGER_SUCCESS,
   PURCHASE_INIT,
 } from "../actions/actionTypes";
-import { newObject } from "../utility/utility";
+import { newObject } from "../../utility/utility";
 
 const initialState = {
   orders: [],
