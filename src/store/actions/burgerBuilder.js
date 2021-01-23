@@ -1,13 +1,10 @@
-import axiosInstance from "../../axiosOrders";
 import {
   ADD_INGREDIENT,
   FETCH_INGREDIENTS_FAILED,
+  INIT_INGREDIENT,
   REMOVE_INGREDIENT,
   SET_INGREDIENTS,
 } from "./actionTypes";
-
-const INGREDIENT_URL =
-  "https://web-gurus-media--1492326682375.firebaseio.com/ingredients.json";
 
 export const addIngredient = (name) => {
   return {
@@ -35,15 +32,7 @@ export const fetchIngredientsFailed = () => {
 };
 
 export const initIngredient = () => {
-  return (dispatch) => {
-    axiosInstance
-      .get(INGREDIENT_URL)
-      .then((response) => {
-        dispatch(setIngredient(response.data));
-      })
-      .catch((error) => {
-        console.log(error);
-        dispatch(fetchIngredientsFailed());
-      });
+  return {
+    type: INIT_INGREDIENT,
   };
 };
