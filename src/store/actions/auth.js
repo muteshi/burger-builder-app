@@ -5,6 +5,7 @@ import {
   AUTH_SUCCESS,
   AUTH_LOGOUT,
   SET_AUTH_REDIRECT_PATH,
+  AUTH_INIT_LOGOUT,
 } from "./actionTypes";
 
 const registerUrl =
@@ -27,11 +28,11 @@ export const authSuccess = (token, userId) => {
 };
 
 export const logout = () => {
-  localStorage.removeItem("token");
-  localStorage.removeItem("expirationDate");
-  localStorage.removeItem("userId");
+  // localStorage.removeItem("token");
+  // localStorage.removeItem("expirationDate");
+  // localStorage.removeItem("userId");
   return {
-    type: AUTH_LOGOUT,
+    type: AUTH_INIT_LOGOUT,
   };
 };
 
