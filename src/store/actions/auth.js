@@ -1,17 +1,13 @@
-import axios from "axios";
 import {
   AUTH_FAIL,
   AUTH_START,
   AUTH_SUCCESS,
-  AUTH_LOGOUT,
   SET_AUTH_REDIRECT_PATH,
   AUTH_INIT_LOGOUT,
+  AUTH_LOGOUT,
+  AUTH_CHECK_TIMEOUT,
+  AUTH_USER,
 } from "./actionTypes";
-
-const registerUrl =
-  "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyB5m5ttK1kLr1dv4c2rMlNeRftpuoP2TqI";
-const loginUrl =
-  "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyB5m5ttK1kLr1dv4c2rMlNeRftpuoP2TqI";
 
 export const authStart = () => {
   return {
@@ -28,19 +24,20 @@ export const authSuccess = (token, userId) => {
 };
 
 export const logout = () => {
-  // localStorage.removeItem("token");
-  // localStorage.removeItem("expirationDate");
-  // localStorage.removeItem("userId");
   return {
     type: AUTH_INIT_LOGOUT,
   };
 };
+export const logoutSucceed = () => {
+  return {
+    type: AUTH_LOGOUT,
+  };
+};
 
 export const checkAuthTimeout = (expiryTime) => {
-  return (dispatch) => {
-    setTimeout(() => {
-      dispatch(logout());
-    }, expiryTime * 1000);
+  return {
+    type: AUTH_CHECK_TIMEOUT,
+    expiryTime: expiryTime,
   };
 };
 
@@ -52,33 +49,11 @@ export const authFail = (error) => {
 };
 
 export const auth = (email, password, isSignUp) => {
-  return (dispatch) => {
-    dispatch(authStart());
-    const authData = {
-      email,
-      password,
-      returnSecureToken: true,
-    };
-    let url = registerUrl;
-    if (isSignUp) {
-      url = loginUrl;
-    }
-
-    axios
-      .post(url, authData)
-      .then((res) => {
-        const expirationDate = new Date(
-          new Date().getTime() + res.data.expiresIn * 1000
-        );
-        localStorage.setItem("token", res.data.idToken);
-        localStorage.setItem("expirationDate", expirationDate);
-        localStorage.setItem("userId", res.data.localId);
-        dispatch(authSuccess(res.data.idToken, res.data.localId));
-        dispatch(checkAuthTimeout(res.data.expiresIn));
-      })
-      .catch((err) => {
-        dispatch(authFail(err.response.data.error));
-      });
+  return {
+    type: AUTH_USER,
+    email,
+    password,
+    isSignUp,
   };
 };
 
